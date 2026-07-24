@@ -93,7 +93,7 @@
 
   function focus() {
     if (refHiddenInput) {
-      refHiddenInput.focus()
+      refHiddenInput.focus({ preventScroll: true })
     }
   }
 </script>
