@@ -167,6 +167,7 @@
   debug('isSSR:', isSSR)
 
   export let readOnly: boolean
+  export let ariaLabel: string | undefined = undefined
   export let externalContent: Content
   export let externalSelection: JSONEditorSelection | undefined
   export let history: History<HistoryItem>
@@ -1752,6 +1753,7 @@
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <div
   role="table"
+  aria-label={ariaLabel}
   class="jse-table-mode"
   class:no-main-menu={!mainMenuBar}
   on:mousedown={handleMouseDown}
@@ -1776,10 +1778,13 @@
 
   {#if !isSSR}
     <label class="jse-hidden-input-label">
+      <!-- an off-screen input to capture paste and hold focus; it carries no
+           content of its own, so hide it from assistive technologies -->
       <input
         type="text"
         readonly={true}
         tabindex="-1"
+        aria-hidden="true"
         class="jse-hidden-input"
         bind:this={refHiddenInput}
         on:paste={handlePaste}

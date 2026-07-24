@@ -184,6 +184,7 @@
   const jump = createJump()
 
   export let readOnly: boolean
+  export let ariaLabel: string | undefined = undefined
   export let externalContent: Content
   export let externalSelection: JSONEditorSelection | undefined
   export let history: History<HistoryItem>
@@ -1930,6 +1931,7 @@
 <div
   role="tree"
   tabindex="-1"
+  aria-label={ariaLabel}
   class="jse-tree-mode"
   class:no-main-menu={!mainMenuBar}
   on:keydown={handleKeyDown}
@@ -1962,10 +1964,13 @@
 
   {#if !isSSR}
     <label class="jse-hidden-input-label">
+      <!-- an off-screen input to capture paste and hold focus; it carries no
+           content of its own, so hide it from assistive technologies -->
       <input
         type="text"
         readonly={true}
         tabindex="-1"
+        aria-hidden="true"
         class="jse-hidden-input"
         bind:this={refHiddenInput}
         on:paste={handlePaste}
